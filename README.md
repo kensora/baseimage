@@ -16,8 +16,9 @@ You can set the following environment variables:
 
 ### Additional scripts
 
-- NodeJS
-  If you need to use NodeJS for your application, just use the following example in your Dockerfile:
+#### NodeJS
+
+If you need to use NodeJS for your application, just use the following example in your Dockerfile:
 
 ```Dockerfile
 FROM web_focal as base

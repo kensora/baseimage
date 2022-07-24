@@ -9,4 +9,4 @@ jobs:
         steps:
             - uses: actions/checkout@v3
             - run: make docker-login DOCKER_HUB_ACCOUNT=${{ secrets.DOCKER_HUB_ACCOUNT }} DOCKER_HUB_ACCESS_TOKEN=${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-            - run: make docker-tag DOCKER_HUB_ACCOUNT=${{ secrets.DOCKER_HUB_ACCOUNT }} PORT=80
+            - run: make docker-tag DOCKER_HUB_ACCOUNT=${{ secrets.DOCKER_HUB_ACCOUNT }}

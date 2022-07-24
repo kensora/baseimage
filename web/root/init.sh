@@ -1,12 +1,25 @@
 #!/bin/bash
 
-UID=$(id -u)
+username=${APP_USER:-$(whoami)}
 
-APP_EXECUTABLE_PATH=${APP_EXECUTABLE_PATH} envsubst < /etc/supervisor/conf.template.d/supervisord.app.conf > /etc/supervisor/conf.d/supervisord.app.conf
-/usr/bin/supervisord --configuration /etc/supervisor/supervisord.conf
+echo "#baseimage: user ${username}"
 
-if [[ ${UID} -eq 0 ]]; then
-   sudo -H -u $APP_USER "$@"
+if [[ ! -z "${APP_CMD}" ]]; then
+   envsubst '${APP_CMD}' < /etc/supervisor/conf.d.template/supervisord.app.conf > /etc/supervisor/conf.d/supervisord.app.conf
+fi
+
+if [[ ! -z "${APP_PORT}" ]]; then
+   envsubst '${APP_PORT}' < /etc/nginx/sites-enabled.template/default > /etc/nginx/sites-enabled/default
+fi
+
+if [[ -z "$@" ]]; then
+   echo "#baseimage: start supervisor standalone"
+   exec gosu root supervisord --nodaemon --configuration=/etc/supervisor/supervisord.conf
 else
-   exec "$@"
+   echo "#baseimage: supervisor starting..."
+   supervisord --configuration=/etc/supervisor/supervisord.conf
+   echo "#baseimage: supervisor started"
+
+   echo "#baseimage: execute '$@'"
+   exec gosu ${username} $@
 fi

@@ -1,17 +1,33 @@
 PWD:=$(shell pwd)
 
-OS_VERSION:=focal
+TAG:=
+OS_VERSION:=
 APP_USER:=app
-APP_EXECUTABLE_PATH:=ps
-NODEJS_VERSION:=16
 
-build-web-baseimage:
+check-required-env:
+	if [ -z "${TAG}" ]; then \
+		echo 'Missing required argument "TAG"'; \
+		exit 1; \
+	fi
+
+	if [ -z "${OS_VERSION}" ]; then \
+		echo 'Missing required argument "OS_VERSION"'; \
+		exit 1; \
+	fi
+
+	if [ -z "${APP_USER}" ]; then \
+		echo 'Missing required argument "APP_USER"'; \
+		exit 1; \
+	fi
+
+build-web-baseimage: check-required-env
 	WEB_PATH=${PWD}/web ; \
 	docker image build $$WEB_PATH \
-		--rm --progress=plain --no-cache \
-		--tag 'web_${OS_VERSION}' \
+		--rm --progress=plain \
+		--tag ${TAG} \
 		--file $$WEB_PATH/Dockerfile \
 		--build-arg OS_VERSION=${OS_VERSION} \
-		--build-arg APP_USER=${APP_USER} \
-		--build-arg APP_EXECUTABLE_PATH=${APP_EXECUTABLE_PATH} \
-		--build-arg NODEJS_VERSION=${NODEJS_VERSION}
+		--build-arg APP_USER=${APP_USER}
+
+build:
+	make build-web-baseimage TAG='web_${OS_VERSION}'

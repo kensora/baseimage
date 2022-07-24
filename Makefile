@@ -47,4 +47,4 @@ docker-tag:
 	fi
 
 	make build OS_VERSION=focal
-	docker push ${DOCKER_NAME}
+	docker push ${DOCKER_NAME} --all-tags

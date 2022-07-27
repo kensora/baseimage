@@ -9,6 +9,7 @@ if [[ ! -z "${APP_CMD}" ]]; then
 fi
 
 if [[ ! -z "${APP_PORT}" ]]; then
+   envsubst < /etc/supervisor/conf.d.template/supervisord.nginx.conf > /etc/supervisor/conf.d/supervisord.nginx.conf
    envsubst '${APP_PORT}' < /etc/nginx/sites-enabled.template/default > /etc/nginx/sites-enabled/default
 fi
 

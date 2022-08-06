@@ -28,7 +28,7 @@ check-required-env:
 build-web-baseimage: check-required-env
 	WEB_PATH=${PWD}/web ; \
 	docker image build $$WEB_PATH \
-		--rm --progress=plain \
+		--rm \
 		--tag ${DOCKER_NAME}:${TAG} \
 		--file $$WEB_PATH/Dockerfile \
 		--build-arg OS_VERSION=${OS_VERSION} \

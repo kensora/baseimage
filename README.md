@@ -24,7 +24,11 @@ If you need to use NodeJS for your application, just use the following example i
 FROM web_focal as base
 
 ARG NODEJS_VERSION=16.13.2
+    # the NODEJS_VERSION env must be set for get-nodejs command
 ENV NODEJS_VERSION=${NODEJS_VERSION} \
+    # rewrite PATH env in Dockerfile needs only for use NodeJS inside Dockerfile
+    # also you can use like `RUN . /etc/profile && npm ... && node ...` without rewriting PATH manualy
+    # inside container NodeJS can be used anyway
     PATH=/usr/local/nvm/versions/node/v${NODEJS_VERSION}/bin/:${PATH}
 
 RUN get-nodejs

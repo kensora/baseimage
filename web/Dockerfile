@@ -35,6 +35,8 @@ RUN \
 ADD "./root/init.sh" "/init.sh"
 ADD "./root/etc/nginx/" "/etc/nginx/"
 ADD "./root/etc/supervisor/" "/etc/supervisor/"
-ADD --chown=0755 "./root/usr/local/bin/get-nodejs.sh" "/usr/local/bin/get-nodejs"
+ADD "./root/usr/local/bin/get-nodejs.sh" "/usr/local/bin/get-nodejs"
+
+RUN chmod +x /init.sh /usr/local/bin/get-nodejs
 
 ENTRYPOINT [ "/init.sh" ]

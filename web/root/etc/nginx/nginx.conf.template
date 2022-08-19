@@ -16,14 +16,13 @@ http {
     server_tokens off;
 
     keepalive_timeout 65;
-
     types_hash_max_size 2048;
-    client_body_buffer_size  128k;
-    client_header_buffer_size 3m;
-    large_client_header_buffers 4 256k;
 
     ssl_protocols TLSv1 TLSv1.1 TLSv1.2 TLSv1.3;
     ssl_prefer_server_ciphers on;
+
+    include /etc/nginx/mime.types;
+    default_type application/octet-stream;
 
     gzip on;
     gzip_vary on;
@@ -48,7 +47,4 @@ http {
 
     include /etc/nginx/conf.d/*.conf;
     include /etc/nginx/sites-enabled/*;
-    include /etc/nginx/mime.types;
-
-    default_type application/octet-stream;
 }
